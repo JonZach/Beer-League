@@ -665,7 +665,12 @@
 			team2 = teams[1];
 
 
-			if (data.score1 > data.score2) {
+			if (data.score1 === data.score2){
+				alert("No Ties for YOU!");
+				return false;
+			}	
+
+			else if(data.score1 > data.score2) {
 				//get win total, add one, send back
 				$.ajax({
 	    			url: "backliftapp/team/" + team1,
