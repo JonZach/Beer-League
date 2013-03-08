@@ -165,6 +165,9 @@
 
 			var schedule;
 
+
+
+
 			if (league_array[0].length % 2 == 0) {
 				schedule = sched[0].length;
 			}
@@ -189,7 +192,7 @@
 					dataType: "json",
 					data: game,
 					success: function (data, game) {
-						assignWLs (data);	
+						assignWLs(data);	
 						loop_count++;	
 						if (loop_count == schedule) {
 							$.ajax({
@@ -197,12 +200,14 @@
 								type: "GET",
 								dataType: "json",
 								success: function (data, game) {
-									pageRefresh();
-								}
-							});
-						}		
-					}			 
-				});											 
+									pageRefresh();	
+									scoreAdd();
+								}, //end success
+							}); // end Get
+						}	//end if	
+					}	//end sucess		 
+				});	//end ajax Post	
+													 
 			}); 
 
 			function resultsPush (game) {
@@ -214,10 +219,17 @@
 				}
 			};	
 		}); 
+	
+			// ==================== NonFuntional Code ========================= //
+			// the following 2 lines were part of original code base, but not doing anything that i can tell
+				function scoreAdd(){
+					$('.runs').each(function(){
+					//$(this).val('');
+					$('.runs').html('<p>' + $('.score_inputs').val() + '</p>');
+					console.log($('.score_inputs').val());
 
-		$('.score_inputs').each(function(){
-			$(this).val('');
-		});
+			});	
+		}; 
 
 		//===========================================================
 		//              ** END SAVE SCORES CLICK EVENT **
@@ -561,7 +573,7 @@
 		}; //end prepTable func
 
 		function prepSched(i, j, n) { 			//appends schedule info into prepped table for schedWrite function
-
+			
 			var score_grab1, score_grab2;		
 			if (clicker >= results_array[0].length) {	//if a weeks games haven't been played, append TBA
 				score_grab1 = 'TBA';
@@ -577,8 +589,8 @@
 				});
 			}
 			$('<tr style="background-color: #e6EEEE;"><td colspan="2">' + league_array[0][sched[i][j][0] - n].teamName + " vs. " + league_array[0][sched[i][j][1] - n].teamName + "</td></tr>").appendTo('#schedule_body' + i);
-			$('<tr><td>' + league_array[0][sched[i][j][0] - n].teamName + '</td><td>' + score_grab1 + '</td></tr>').appendTo('#schedule_body' + i);
-			$('<tr><td>' + league_array[0][sched[i][j][1] - n].teamName + '</td><td>' + score_grab2 + '</td></tr>').appendTo('#schedule_body' + i);
+			$('<tr><td>' + league_array[0][sched[i][j][0] - n].teamName + '</td><td class="runs">' + score_grab1 + '</td></tr>').appendTo('#schedule_body' + i);
+			$('<tr><td>' + league_array[0][sched[i][j][1] - n].teamName + '</td><td class="runs">' + score_grab2 + '</td></tr>').appendTo('#schedule_body' + i);
 			clicker++;
 		}; //end prepSched func
 
@@ -656,6 +668,16 @@
 			$('<div class="control-group" style="margin-top: -10px;"><label class="control-label score_labels" for="team_two_score">' + league_array[0][gameList[index][1] - n].teamName + '</label><div class="controls"><input type="text" class="score_inputs" id="team_' + (count + 1) + '" name="team_two_score" placeholder="Score"><input id="id_' + (count + 1) + '" class="score_inputs" value="' + league_array[0][gameList[index][1] - n].id + '" style="display: none;"></div></div>').appendTo('#game_group' + index);
 		}; //end prepScores func
 
+		/*function noTies (data){
+			if (data.score1 === data.score2){
+				alert("No Ties for YOU!");
+				return false;
+			}
+			else{
+				assignWLs();
+			}
+		} end noTies */
+
 		function assignWLs (data) {
 			var chop, teams, team1, team2;
 
@@ -665,12 +687,12 @@
 			team2 = teams[1];
 
 
-			if (data.score1 === data.score2){
+			/*if (data.score1 === data.score2){
 				alert("No Ties for YOU!");
 				return false;
-			}	
+			}	*/
 
-			else if(data.score1 > data.score2) {
+			if(data.score1 > data.score2) {
 				//get win total, add one, send back
 				$.ajax({
 	    			url: "backliftapp/team/" + team1,
