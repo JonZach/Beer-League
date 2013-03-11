@@ -175,6 +175,15 @@
 				schedule = sched[0].length - 1;
 			}
 
+
+			/* NO TIES //
+			if (($('#team_1').val()) === ($('#team_2').val()) || ($('#team_3').val()) === ($('#team_4').val()) || ($('#team_5').val()) === ($('#team_6').val()) || ($('#team_7').val()) === ($('#team_8').val())) {
+
+				alert('there are no ties, bub');
+
+				} else { */
+
+
 			$('.game_wraps').each(function(index){ 
 				var gameId = $('#id_' + count).val() + $('#id_' + (count + 1)).val();
 				var score1 = $('#team_' + count).val();
@@ -220,11 +229,9 @@
 			};	
 		}); 
 	
-			// ==================== NonFuntional Code ========================= //
-			// the following 2 lines were part of original code base, but not doing anything that i can tell
+			
 				function scoreAdd(){
 					$('.runs').each(function(){
-					//$(this).val('');
 					$('.runs').html('<p>' + $('.score_inputs').val() + '</p>');
 					console.log($('.score_inputs').val());
 
