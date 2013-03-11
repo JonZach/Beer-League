@@ -234,6 +234,8 @@
 								dataType: "json",
 								success: function (data, game) {
 									pageRefresh();
+									//Add Zach's function
+									scoreAdd();
 								} 
 							});
 						}		
@@ -256,10 +258,15 @@
 		}); // End of click function
 		
 
+		//Zach's funciton:
 		
-		$('.score_inputs').each(function(){
-			$(this).val('');
-		});
+		function scoreAdd() {
+			$('.runs').each(function() {
+			$('.runs').html('<p>' + $('.score_inputs').val() + '</p>');
+			console.log($('.score_inputs').val());
+			});
+		};
+
 
 		
 
